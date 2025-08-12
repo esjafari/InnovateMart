@@ -1,0 +1,30 @@
+embeddings {
+  tensor_name: "store_id:00300"
+  metadata_path: "00300/store_id\\metadata.tsv"
+  tensor_path: "00300/store_id\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "store_size:00300"
+  metadata_path: "00300/store_size\\metadata.tsv"
+  tensor_path: "00300/store_size\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "promotion_active:00300"
+  metadata_path: "00300/promotion_active\\metadata.tsv"
+  tensor_path: "00300/promotion_active\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "day_of_week:00300"
+  metadata_path: "00300/day_of_week\\metadata.tsv"
+  tensor_path: "00300/day_of_week\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "month:00300"
+  metadata_path: "00300/month\\metadata.tsv"
+  tensor_path: "00300/month\\tensors.tsv"
+}
+embeddings {
+  tensor_name: "is_weekend:00300"
+  metadata_path: "00300/is_weekend\\metadata.tsv"
+  tensor_path: "00300/is_weekend\\tensors.tsv"
+}
