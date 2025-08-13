@@ -1,0 +1,8 @@
+src/**pycache**
+**pycache**/
+lightning_logs/
+temp/
+*.log
+*.pyc
+.vscode/
+
