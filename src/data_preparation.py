@@ -15,6 +15,8 @@ def prepare_datasets(df_sales):
     max_time_idx = df_sales['time_idx'].max()
     training_cutoff = max_time_idx - 30
 
+    batch_size = 64  # Batch size for dataloaders
+
     training = TimeSeriesDataSet(
         df_sales[df_sales.time_idx <= training_cutoff],
         time_idx='time_idx',
@@ -34,9 +36,11 @@ def prepare_datasets(df_sales):
         add_encoder_length=True,
     )
 
-    validation = TimeSeriesDataSet.from_dataset(training, df_sales, predict=True, stop_randomization=True)
+    # Validation dataset uses the same parameters as training but includes whole dataframe
+    validation = TimeSeriesDataSet.from_dataset(
+        training, df_sales, predict=True, stop_randomization=True
+    )
 
-    batch_size = 64
     train_dataloader = training.to_dataloader(train=True, batch_size=batch_size, num_workers=3)
     val_dataloader = validation.to_dataloader(train=False, batch_size=batch_size, num_workers=3)
 

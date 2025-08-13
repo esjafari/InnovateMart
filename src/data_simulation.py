@@ -3,6 +3,16 @@ import pandas as pd
 
 
 def calculate_growth_rate(store_size, city_population):
+    """
+    Calculate the annual growth rate for a given store size and city population.
+
+    Args:
+        store_size (str): One of 'small', 'medium', or 'large'.
+        city_population (int): Population of the city where the store is located.
+
+    Returns:
+        float: Growth rate value.
+    """
     base_rate = {
         'small': np.random.normal(-0.01, 0.02),
         'medium': np.random.normal(0.03, 0.01),
@@ -30,6 +40,7 @@ def simulate_sales_data():
     shock_store = 'store_2'
     shock_date = pd.to_datetime('2022-06-01')
 
+    # Create store info with growth rates
     stores = []
     for i in range(num_stores):
         size = store_sizes[i % len(store_sizes)]
@@ -42,6 +53,7 @@ def simulate_sales_data():
             'growth_rate': growth_rate
         })
 
+    # Weekday and monthly seasonal factors
     weekday_effects = {
         0: 0.9, 1: 0.95, 2: 1.0, 3: 1.05, 4: 1.10, 5: 1.30, 6: 1.30
     }
@@ -51,6 +63,7 @@ def simulate_sales_data():
         7:1.0, 8:0.95, 9:1.0, 10:1.0, 11:1.05, 12:1.3
     }
 
+    # Define promotion dates per store
     promotions = {}
     for store in stores:
         promotion_days = []
@@ -63,6 +76,7 @@ def simulate_sales_data():
                 promotion_days.append(date)
         promotions[store['store_id']] = set(promotion_days)
 
+    # Base sales mapping per store size
     records = []
     for store in stores:
         population = store['city_population']
@@ -81,11 +95,13 @@ def simulate_sales_data():
             if promotion_active:
                 sales_base *= 1.5
 
+            # Apply shock effect if applicable
             if store['store_id'] == shock_store and current_date >= shock_date:
                 days_since_shock = (current_date - shock_date).days
                 shock_factor = max(0.7, 1 - 0.3 * min(1, days_since_shock / 60))
                 sales_base *= shock_factor
 
+            # Add Gaussian noise proportional to sales_base (5%)
             noise = np.random.normal(0, sales_base * 0.05)
             daily_sales = max(10, sales_base + noise)
 
@@ -104,10 +120,14 @@ def simulate_sales_data():
 
     df_sales = pd.DataFrame(records)
     
-    cat_cols = ['store_id', 'store_size', 'promotion_active', 'day_of_week', 'month', 'is_weekend']
+    # Convert categorical columns to category dtype
+    cat_cols = ['store_id', 'store_size', 'promotion_active', 
+                'day_of_week', 'month', 'is_weekend']
     for col in cat_cols:
         df_sales[col] = df_sales[col].astype('category')
 
-    df_sales['time_idx'] = (df_sales['Date'] - df_sales['Date'].min()).dt.days
+    # Create a time index feature for modeling purposes
+    df_sales['time_idx'] = (df_sales['Date'] - 
+                            df_sales['Date'].min()).dt.days
     
     return df_sales
