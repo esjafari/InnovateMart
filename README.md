@@ -68,7 +68,7 @@ streamlit run app.py
 ---
 
 ### نمای کلی اپلیکیشن:
+<img width="528" height="1096" alt="app_screenshot" src="https://github.com/user-attachments/assets/47ed9ce1-7c3c-4bb9-ba81-a8f425dbebe1" />
 
 
-![](images/app_screenshot.png)
   
