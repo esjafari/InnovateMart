@@ -1,4 +1,4 @@
-src/**pycache**
+src/pycache
 **pycache**/
 lightning_logs/
 temp/
